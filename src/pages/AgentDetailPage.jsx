@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useParams, useNavigate, Navigate } from 'react-router-dom'
 import { ArrowLeft, MessageSquare, Settings, ListTodo } from 'lucide-react'
 import TopBar from '../components/layout/TopBar.jsx'
@@ -21,7 +21,8 @@ export default function AgentDetailPage() {
   const { agentId } = useParams()
   const navigate = useNavigate()
   const agent = useAgentStore((s) => s.getAgent(agentId))
-  const agentTasks = useTaskStore((s) => s.getTasksForAgent(agentId))
+  const allTasks = useTaskStore((s) => s.tasks)
+  const agentTasks = useMemo(() => allTasks.filter((t) => t.agentId === agentId), [allTasks, agentId])
   const [activeTab, setActiveTab] = useState('chat')
   const [, forceUpdate] = useState(0)
 

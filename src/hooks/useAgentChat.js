@@ -1,11 +1,12 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useConversationStore } from '../stores/useConversationStore.js'
 import { useAgentStore } from '../stores/useAgentStore.js'
 import { useActivityStore } from '../stores/useActivityStore.js'
 import { useStreamingMessage } from './useStreamingMessage.js'
 
 export function useAgentChat(agentId) {
-  const messages = useConversationStore((s) => s.getMessages(agentId))
+  const convos = useConversationStore((s) => s.conversations)
+  const messages = useMemo(() => convos[agentId] || [], [convos, agentId])
   const addMessage = useConversationStore((s) => s.addMessage)
   const updateLastAssistantMessage = useConversationStore((s) => s.updateLastAssistantMessage)
   const clearConversation = useConversationStore((s) => s.clearConversation)

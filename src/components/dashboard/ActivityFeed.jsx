@@ -23,7 +23,7 @@ const typeColors = {
 }
 
 export default function ActivityFeed() {
-  const activities = useActivityStore((s) => s.getRecentActivities(15))
+  const activities = useActivityStore((s) => s.activities).slice(0, 15)
 
   return (
     <Card>
